@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { BannerComponent } from "./banner/banner.component";
 import { FormNovaTransacaoComponent } from "./form-nova-transacao/form-nova-transacao.component";
+import { TipoTransacao, Transacao } from './modelos/transacao';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,28 @@ import { FormNovaTransacaoComponent } from "./form-nova-transacao/form-nova-tran
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  processarTransacao() {
-    console.log('Transação criada com sucesso!');
+  transacoes = signal<Transacao[]>([]);
+
+  saldo = computed(() => {
+    return this.transacoes().reduce((acc, transacaoAtual) => {
+      switch (transacaoAtual.tipo) {
+        case TipoTransacao.DEPOSITO:
+          return acc + transacaoAtual.valor;
+
+        case TipoTransacao.SAQUE:
+          return acc - transacaoAtual.valor;
+
+        default:
+          throw new Error(`Tipo de transação inválido: ${transacaoAtual.tipo}`);
+      }
+    }, 0);
+  });
+
+  processarTransacao(transacao: Transacao) {
+
+         this.transacoes.update((listaAtual) => [transacao, ...listaAtual]);
+
+         console.log(this.transacoes());
+    // alert(`Transação criada com sucesso!\nTipo: ${transacao.tipo}\nValor: R$ ${transacao.valor.toFixed(2)}`);
   }
 }

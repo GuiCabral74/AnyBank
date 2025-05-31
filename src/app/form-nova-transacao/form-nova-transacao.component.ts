@@ -13,7 +13,7 @@ export class FormNovaTransacaoComponent {
   tipoTransacao = '';
   valorTransacao = '';
 
-  transacaoCriada = output();
+  transacaoCriada = output<Transacao>();
 
   aoSubmeter() {
 
@@ -22,7 +22,7 @@ export class FormNovaTransacaoComponent {
       Number(this.valorTransacao)
     )
 
-    this.transacaoCriada.emit();
+    this.transacaoCriada.emit(transacao);
 
     this.tipoTransacao = '';
     this.valorTransacao = '';
