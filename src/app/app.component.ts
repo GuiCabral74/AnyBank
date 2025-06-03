@@ -2,13 +2,15 @@ import { Component, computed, signal } from '@angular/core';
 import { BannerComponent } from "./banner/banner.component";
 import { FormNovaTransacaoComponent } from "./form-nova-transacao/form-nova-transacao.component";
 import { TipoTransacao, Transacao } from './modelos/transacao';
+import { ExtratoComponent } from "./extrato/extrato.component";
 
 @Component({
   selector: 'app-root',
   imports: [
     BannerComponent,
-    FormNovaTransacaoComponent
-  ],
+    FormNovaTransacaoComponent,
+    ExtratoComponent
+],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -38,6 +40,5 @@ export class AppComponent {
          this.transacoes.update((listaAtual) => [transacao, ...listaAtual]);
 
          console.log(this.transacoes());
-    // alert(`Transação criada com sucesso!\nTipo: ${transacao.tipo}\nValor: R$ ${transacao.valor.toFixed(2)}`);
   }
 }
